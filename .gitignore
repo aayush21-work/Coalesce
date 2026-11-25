@@ -1,0 +1,7 @@
+build/
+*.db
+*.db-wal
+*.db-shm
+coalesce_bench_*/
+.cache/
+compile_commands.json

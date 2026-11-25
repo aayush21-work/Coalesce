@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Coalesce</title>
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="plate">
+  <header class="top">
+    <h1><svg viewBox="0 0 32 32" aria-hidden="true"><path class="mark_in" d="M3 8h10M3 16h10M3 24h10"/><path class="mark_out" d="M17 8l4 8-4 8M21 16h8"/></svg>Coalesce</h1>
+    <p class="tagline">Many likes in, few database writes out</p>
+    <p class="link" id="link" role="status"><span class="lamp"></span><span id="link_text">Connecting</span></p>
+  </header>
+
+  <section class="counter" aria-label="Live counter">
+    <div class="hero">
+      <h2>Likes</h2>
+      <p class="count" id="count">0</p>
+      <div class="buttons">
+        <button class="primary" id="like">Like</button>
+        <button id="dislike">Dislike</button>
+        <button id="burst">Send 500 likes</button>
+      </div>
+      <p class="note" id="action_note" role="status"></p>
+    </div>
+    <div class="reservoir">
+      <h2>Not saved yet</h2>
+      <p class="figure" id="unsaved">0</p>
+      <div class="meter" id="meter" role="img" aria-label="Likes waiting for the next flush"><div class="fill" id="meter_fill"></div></div>
+      <p class="note" id="saved_text"></p>
+    </div>
+    <dl class="tiles">
+      <div><dt>Requests per database write</dt><dd id="ratio">-</dd></div>
+      <div><dt>Time to count a like, median</dt><dd id="p50">-</dd></div>
+      <div><dt>Time to count a like, p99</dt><dd id="p99">-</dd></div>
+    </dl>
+  </section>
+
+  <section class="strategies" aria-labelledby="strategy_title">
+    <h2 id="strategy_title">Write strategy</h2>
+    <div class="choices" id="choices" role="radiogroup" aria-labelledby="strategy_title"></div>
+  </section>
+
+  <section class="charts" aria-label="Traffic over the last minute">
+    <figure>
+      <figcaption>Requests per second <output id="requests_now">0</output></figcaption>
+      <div class="chart" id="requests_chart"></div>
+    </figure>
+    <figure>
+      <figcaption>Database writes per second <output id="writes_now">0</output></figcaption>
+      <div class="chart" id="writes_chart"></div>
+    </figure>
+  </section>
+
+  <section class="bench" aria-labelledby="bench_title">
+    <div class="bench_head">
+      <div>
+        <h2 id="bench_title">Benchmark</h2>
+        <p class="note">Threads call the strategy directly, without HTTP, against a throwaway database. Then the database is read back to count what got lost.</p>
+      </div>
+      <form id="bench_form">
+        <label>Strategy<select name="strategy" id="bench_strategy"><option value="all">All five</option></select></label>
+        <label>Threads<select name="threads"><option>1</option><option>2</option><option>4</option><option selected>8</option><option>16</option><option>32</option><option>64</option></select></label>
+        <label>Seconds each<select name="seconds"><option>1</option><option selected>2</option><option>5</option><option>10</option></select></label>
+        <button class="primary" id="bench_run">Run</button>
+      </form>
+    </div>
+    <div class="progress" id="progress" hidden>
+      <div class="meter"><div class="fill" id="progress_fill"></div></div>
+      <p id="progress_text"></p>
+    </div>
+    <p class="note problem" id="bench_error" role="alert" hidden></p>
+    <p class="empty" id="bench_empty">No results yet. Comparing all five takes about ten seconds.</p>
+    <table id="bench_table" hidden>
+      <thead><tr>
+        <th scope="col">Strategy</th>
+        <th scope="col" class="track_head"><span>Operations per second, log scale</span><span class="axis" id="bench_axis"></span></th>
+        <th scope="col" class="num">Ops/s</th>
+        <th scope="col" class="num">p50</th>
+        <th scope="col" class="num">p99</th>
+        <th scope="col" class="num">Max</th>
+        <th scope="col" class="num">DB writes</th>
+        <th scope="col" class="num">Lost</th>
+      </tr></thead>
+      <tbody id="bench_rows"></tbody>
+    </table>
+    <p class="note" id="clock_note" hidden></p>
+  </section>
+</main>
+<div class="tip" id="tip" hidden></div>
+<script src="/app.js"></script>
+</body>
+</html>

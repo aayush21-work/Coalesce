@@ -1,0 +1,18 @@
+{
+  "version": 6,
+  "configurePresets": [
+    { "name": "release", "binaryDir": "build/release", "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" } },
+    { "name": "tsan", "binaryDir": "build/tsan", "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "COALESCE_SANITIZER": "thread" } },
+    { "name": "asan", "binaryDir": "build/asan", "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "COALESCE_SANITIZER": "address,undefined" } }
+  ],
+  "buildPresets": [
+    { "name": "release", "configurePreset": "release", "jobs": 8 },
+    { "name": "tsan", "configurePreset": "tsan", "jobs": 8 },
+    { "name": "asan", "configurePreset": "asan", "jobs": 8 }
+  ],
+  "testPresets": [
+    { "name": "release", "configurePreset": "release", "output": { "outputOnFailure": true } },
+    { "name": "tsan", "configurePreset": "tsan", "output": { "outputOnFailure": true } },
+    { "name": "asan", "configurePreset": "asan", "output": { "outputOnFailure": true } }
+  ]
+}
