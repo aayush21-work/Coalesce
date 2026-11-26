@@ -18,7 +18,7 @@ Ryzen 7 7435HS (8 cores, 16 threads), Linux 7.3, GCC 16.2, release build, btrfs 
 | Mutex + batch | 92.7M | 32.9M | 18.5M | 18.3M | 0 |
 | Atomic + batch | 259M | 37.2M | 46.6M | 32.3M | 0 |
 | Sharded + batch | 276M | 1.11B | 2.16B | **2.82B** | 0 |
-| Racy, wrong on purpose | 284M | 96.0M | 66.9M | 96.4M | **up to 93%** |
+| Racy(baseline) | 284M | 96.0M | 66.9M | 96.4M | **up to 93%** |
 
 **Whole path over HTTP**, 16 keep-alive clients, `ab`, 1 s flush interval:
 
