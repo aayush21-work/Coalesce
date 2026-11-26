@@ -17,7 +17,7 @@ std::int64_t Store::read()
 
 void Store::add(std::int64_t delta)
 {
-    //critical section: one connection shared by every thread
+    //critical section
     std::lock_guard<std::mutex> lock(m);
     SQLite::Statement q(db, "UPDATE counter SET value = value + ? WHERE id = 1");
     q.bind(1, delta);
